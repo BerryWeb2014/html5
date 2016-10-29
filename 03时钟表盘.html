@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>时钟表盘</title>
+	<meta charset="utf-8">
+
+	<script type="text/javascript">
+		window.onload=function(){
+			var ctx=document.getElementById('myConvas').getContext('2d');
+
+			drawClock();
+
+			function drawClock(){
+
+				// 1.绘制表盘
+				ctx.beginPath();
+				ctx.arc(650,300,200,0,360,false);
+				ctx.strokeStyle='blue';
+				ctx.lineWidth=8;
+				ctx.closePath();
+				ctx.stroke();
+
+				// 2.绘制刻度
+				// 2.1绘制时针刻度
+				ctx.beginPath();
+				ctx.
+				ctx.closePath();
+			}
+
+		}
+	</script>
+</head>
+<body>
+	<canvas width="1300" height="600" id="myConvas"></canvas>
+
+</body>
+</html>

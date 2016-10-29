@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>bird game</title>
+	<meta charset="utf-8">
+	
+	<script type="text/javascript">
+
+		// 小鸟动态数组
+		var birdImg=['FlappyBird/0.gif','FlappyBird/1.gif','FlappyBird/2.gif'];
+		window.onload=function(){
+			var ctx=document.getElementById('myCanvas').getContext('2d');
+
+			// 绘制图片
+			// 背景图片
+			var imagebg=new Image();
+			imagebg.src='FlappyBird/bg.png';
+			imagebg.onload=function(){
+				ctx.drawImage(imagebg,500,0,300,500);
+			}
+
+			// 下面地面
+			var imagegr=new Image();
+			imagegr.src='FlappyBird/ground.png';
+			imagegr.onload=function(){
+				ctx.drawImage(imagegr,500,450,300,50);
+			}
+
+			// 柱子绘制
+			// 下柱子
+			var imagepipeDown=new Image();
+			imagepipeDown.src='FlappyBird/pipe.png';
+			imagepipeDown.onload=function(){
+				ctx.drawImage(imagepipeDown,10,480,130,350,510,230,30,170);
+			}
+			// 上柱子
+			var imagepipeUp=new Image();
+			imagepipeUp.src='FlappyBird/pipe.png';
+			imagepipeUp.onload=function(){
+				ctx.drawImage(imagepipeUp,160,950,130,350,510,-10,30,150);
+			}
+
+			// 绘制小鸟
+			setInterval(function(){
+				var i=0;
+				if(i<3){
+					birdFly(birdImg[i]);
+					i++;
+					if(i==3)i=0;
+				}
+				
+			},50);
+
+			function birdFly(img){
+				var imagebird=new Image();
+				imagebird.src=img;
+				imagebird.onload=function(){
+				ctx.drawImage(imagebird,520,150,50,50);
+				}
+			}
+			
+		
+
+
+
+		}
+		
+	</script>
+</head>
+<body>
+	<canvas width="1300" height="600" id="myCanvas"></canvas>
+
+</body>
+</html>

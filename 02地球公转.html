@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>地球公转</title>
+	<meta charset="utf-8">
+	<style type="text/css">
+		body{
+			background-color: black;
+		}
+	</style>
+	<script type="text/javascript">
+		window.onload=function(){
+			var canvas=document.getElementById('myCanvas');
+			var ctx=canvas.getContext('2d');
+
+			var num=0;
+			
+			 move();
+			setInterval(move,10);
+
+			function move(){
+
+				ctx.clearRect(0,0,1300,600);
+
+				// 绘制径向渐变的太阳
+				// 创建径向渐变对象
+				ctx.beginPath();
+				var obj1=ctx.createRadialGradient(650,300,0,650,300,50);
+				obj1.addColorStop('0','yellow');
+				obj1.addColorStop('1','orange');
+
+
+				ctx.arc(650,300,50,0,2*Math.PI);
+				ctx.fillStyle=obj1;
+				ctx.fill();
+				ctx.closePath();
+				// 绘制轨道
+				ctx.beginPath();
+				ctx.arc(650,300,250,0,2*Math.PI);
+				ctx.strokeStyle='white';
+				ctx.lineWidth=2;
+				ctx.stroke();
+				ctx.closePath();
+
+				// 绘制地球
+
+				ctx.save();
+				ctx.beginPath();
+				ctx.translate(650,300);//重新设置画布(0,0);
+				ctx.rotate(num*360/365*Math.PI/180);
+				var obj2=ctx.createRadialGradient(250,0,0,250,0,20);
+				obj2.addColorStop('0','white');
+				obj2.addColorStop('1','blue');
+
+				ctx.arc(250,0,15,0,2*Math.PI);
+				ctx.fillStyle=obj2;
+				ctx.fill();
+				ctx.closePath();
+				ctx.restore();
+				num++;
+
+				
+	
+				
+
+			
+			}
+
+			
+
+
+		}
+		
+	</script>
+</head>
+<body>
+	<canvas width="1300" height="600" id="myCanvas">
+		您的浏览器不支持该标签!
+	</canvas>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>笑脸hiahiahia</title>
+	<meta charset="utf-8">
+	<style type="text/css">
+		body{
+			background-color: black;
+		}
+		canvas{
+			background-color: white;
+		}
+	</style>
+
+	<script type="text/javascript">
+		window.onload=function(){
+			var canvas=document.getElementById('myCanvas');
+			var ctx=canvas.getContext('2d');
+			// 画外圆
+			ctx.arc(250,250,200,0,2*Math.PI)
+			ctx.fillStyle='lightblue';
+			ctx.fill();
+			ctx.stroke();
+
+			// 画眼睛
+			// 左眼
+			ctx.beginPath();
+			ctx.arc(150,150,50,0,2*Math.PI);
+			ctx.fillStyle='orange';
+			ctx.fill();
+			ctx.stroke();
+			ctx.closePath();
+
+			// 右眼
+			ctx.beginPath();
+			ctx.arc(350,150,50,0,2*Math.PI);
+			ctx.fillStyle='orange';
+			ctx.fill();
+			ctx.stroke();
+			ctx.closePath();
+
+			// 画眼珠
+			// 左眼珠
+			ctx.beginPath();
+			ctx.arc(160,150,35,0,2*Math.PI);
+			ctx.fillStyle='white';
+			ctx.fill();
+			ctx.stroke();
+			ctx.closePath();
+
+			// 黑色眼珠
+			ctx.beginPath();
+			ctx.arc(160,150,28,0,2*Math.PI);
+			ctx.fillStyle='black';
+			ctx.fill();
+			ctx.closePath();
+
+			// 眼上皮
+			ctx.beginPath();
+			ctx.arc(160,150,35,0,180*Math.PI/180,true);
+			ctx.fillStyle='gray';
+			ctx.fill();
+			ctx.closePath();
+
+
+			// 右眼猪
+			ctx.beginPath();
+			ctx.arc(315,150,20,0,2*Math.PI);
+			ctx.fillStyle='white';
+			ctx.fill();
+			ctx.stroke();
+			ctx.closePath();
+			// 黑色眼珠
+			ctx.beginPath();
+			ctx.arc(315,150,15,0,2*Math.PI);
+			ctx.fillStyle='black';
+			ctx.fill();
+			// ctx.stroke();
+			ctx.closePath();
+
+			// 眼睫毛
+			ctx.beginPath();
+			ctx.moveTo(320,150);
+			ctx.lineTo(370,180);
+
+			ctx.moveTo(320,150);
+			ctx.lineTo(380,150);
+
+			ctx.moveTo(320,150);
+			ctx.lineTo(370,120);
+			ctx.strokeStyle='black';
+			ctx.stroke();
+
+
+			// 鼻子
+			ctx.beginPath();
+			ctx.arc(250,250,50,0,2*Math.PI);
+			ctx.fillStyle='blue';
+			ctx.fill();
+			ctx.closePath();
+
+			// 嘴巴
+
+			ctx.beginPath();
+			ctx.moveTo(120,300);
+			ctx.quadraticCurveTo(250,350,380,300);
+
+			ctx.moveTo(120,300);
+			ctx.quadraticCurveTo(250,500,380,300);
+
+			ctx.lineWidth=8;
+			ctx.strokeStyle='white';
+			ctx.stroke();
+			ctx.closePath();	
+
+			ctx.beginPath();
+			ctx.moveTo(155,350);
+			ctx.quadraticCurveTo(250,320,345,350);
+
+			ctx.moveTo(155,350);
+			ctx.quadraticCurveTo(250,500,345,350);
+			ctx.lineWidth=8;
+			ctx.strokeStyle='white';
+			ctx.fillStyle='orange';
+			ctx.fill();
+			ctx.closePath();
+
+			//耳朵
+			// 左耳朵
+			ctx.beginPath();
+			ctx.moveTo(80,150);
+			ctx.quadraticCurveTo(50,30,150,80); 
+			ctx.lineWidth=8;
+			ctx.strokeStyle='lightblue';
+			ctx.stroke();
+			ctx.closePath();
+
+			// 右耳朵
+			ctx.beginPath();
+			ctx.moveTo(350,85);
+			ctx.quadraticCurveTo(480,40,410,160); 
+			ctx.lineWidth=8;
+			ctx.strokeStyle='lightblue';
+			ctx.stroke();
+			ctx.closePath();
+
+
+
+
+
+		}
+
+
+
+	</script>
+
+</head>
+<body>
+	<canvas width="500" height="500" id="myCanvas">
+		您的浏览器不支持该标签!
+	</canvas>
+
+</body>
+</html>

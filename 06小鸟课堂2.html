@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>小鸟课堂</title>
+	<meta charset="utf-8">
+	<script type="text/javascript">
+		window.onload=function(){
+			var ctx=document.getElementById('myCanvas').getContext('2d');
+
+			// 保存小鸟图片
+			var birds=['FlappyBird/0.gif','FlappyBird/1.gif','FlappyBird/2.gif'];
+			var birdsIndex=0;
+
+			// 障碍物移动速度
+			var speed=8;
+			// 障碍物之间的距离里
+			var pipe_height=200;
+			// 模拟小鸟受重力作用
+			var gravity=2;
+			// 小鸟的初速度
+			var ver1=10;
+			// 定时器对象id
+			var tid;
+			// 分数 需要初始化 不然打印为NaN
+			var grade=0;
+			// 判断是否记分数
+			var isGrade=true;
+
+
+
+			// 创建背景的构造函数 (图片 位置坐标 宽高)
+			function Background(imgSrc,x,y,width,height){
+				this.x=x;
+				this.y=y;
+				this.width=width;
+				this.height=height;
+				// 创建图片对象
+				var image=new Image();
+				// 图片源
+				image.src=imgSrc;
+				// 给构造函数添加绘图方法
+				this.image=image;
+				this.draw=drawImage;
+				// this.draw();
+
+			}
+
+			// 创建地面的构造函数
+			function Ground(imgSrc,x,y,width,height){
+				this.x=x;
+				this.y=y;
+				this.width=width;
+				this.height=height;
+				// 创建图片对象
+				var image=new Image();
+				// 图片源
+				image.src=imgSrc;
+				// 给构造函数添加绘图方法
+				this.image=image;
+				this.draw=drawImage;
+
+			}
+
+			// 简单绘图方法
+			function drawImage(){
+				var that=this;
+				// this.image.onload=function(){
+					ctx.drawImage(that.image,that.x,that.y,that.width,that.height);
+					// 该方法是canvas的一个API，需要按照该方法规定的顺序填写
+				// }
+			}
+
+			// 创建柱子的构造函数
+			// 1.上面柱子
+			function UpPipe(imgSrc,x,y,width,height){
+				this.x=x;
+				this.y=y;
+				this.width=width;
+				this.height=height;
+				// 创建图片对象
+				var image=new Image();
+				// 图片源
+				image.src=imgSrc;
+				// 给构造函数添加绘图方法
+				this.image=image;
+				this.draw=drawUpPipe;
+			}
+
+			// 2.下面柱子
+			function DownPipe(imgSrc,x,y,width,height){
+				this.x=x;
+				this.y=y;
+				this.width=width;
+				this.height=height;
+				// 创建图片对象
+				var image=new Image();
+				// 图片源
+				image.src=imgSrc;
+				// 给构造函数添加绘图方法
+				this.image=image;
+				this.draw=drawDownPipe;
+			}
+
+
+			// 绘制柱子的方法
+			// 上管道
+			function drawUpPipe(){
+				var that=this;
+				//重新指定图片源
+				this.image.src="FlappyBird/pipe.png"
+				// this.image.onload=function(){
+					ctx.drawImage(that.image,150,500,140,800,that.x,that.y,that.width,that.height);
+				// }
+			}
+			// 下管道
+			function drawDownPipe(){
+				var that=this;
+				// this.image.onload=function(){
+					ctx.drawImage(that.image,0,500,140,800,that.x,that.y,that.width,that.height);
+				// }
+			}
+
+			// 小鸟的构造函数
+			// 注意传参时不再需要imgSrc,图片资源在绘制函数中去取
+			function Bird(x,y,width,height){
+				this.x=x;
+				this.y=y;
+				this.width=width;
+				this.height=height;
+				// 创建图片对象
+				var image=new Image();
+				// 图片源
+				
+				// 给构造函数添加绘图方法
+				this.image=image;
+				this.draw=drawBird;
+			}
+
+			// 绘制小鸟的方法
+			function drawBird(){
+				birdsIndex++;
+				// 图片源
+				var imgSrc=birds[birdsIndex%3];
+				this.image.src=imgSrc;
+
+				var that=this;
+				this.image.onload=function(){
+					ctx.drawImage(that.image,that.x,that.y,that.width,that.height);
+				}
+
+			}
+
+
+
+
+			// 创建对象
+			// 背景对象
+			var bg=new Background('FlappyBird/bg.png',0,0,400,600);
+			// bg.draw();
+			// 地面对象
+			var ground=new Ground('FlappyBird/ground.png',0,550,400,50);
+			// ground.draw();
+			// 上管道对象
+			var upPipe=new UpPipe('FlappyBird/pipe.png',0,0,100,200);
+			// upPipe.draw();
+			// 下管道对象
+			var downPipe=new DownPipe('FlappyBird/pipe.png',0,355,100,200);
+			// downPipe.draw();
+
+			// 小鸟
+			var bird=new Bird(80,250,42,32);
+			// bird.draw();
+
+			// 添加点击事件 点空格键向上
+			document.onkeyup=keyUp;
+
+			function keyUp(evt){
+				var event=evt||window.event;
+				var code=event.keyCode||event.charCode;
+				if(code == 32){
+					bird.y-=50;
+				}
+
+			}
+			
+
+			
+
+
+			// 障碍物移动
+			function circulation(){
+
+				// 模拟小鸟的受重力作用
+				// 不断改变小鸟的纵坐标
+				bird.y+=(ver1+ver1+gravity)*0.5;
+
+				// 碰撞检测
+				// 1.与地面碰撞
+				// 通过布尔值检测
+				var groundCondition=bird.y+bird.height>=ground.y;//true
+				// 2.上方障碍物
+				var upPipeCondition=(bird.x+bird.width>=upPipe.x && bird.x<=upPipe.x+upPipe.width) && (bird.y<=upPipe.height);
+
+				var downPipeCondition=(bird.x>=upPipe.x-bird.width && bird.x<=upPipe.x+upPipe.width)
+				&&(bird.y+bird.height>=downPipe.y);
+
+
+				// 判断是否结束游戏
+				if(groundCondition || upPipeCondition || downPipeCondition){
+					clearInterval(tid);
+					var imageOver=new Image();
+					imageOver.src='FlappyBird/pipe.png';
+					imageOver.onload=function(){
+						ctx.drawImage(imageOver,10,320,500,120,100,75,150,100);
+					}	
+					alert(grade);			
+				}
+
+
+
+				// 障碍物向左移动
+				if(upPipe.x+upPipe.width>0){
+					// 判断障碍物是否在画布内
+					upPipe.x-=speed;
+					downPipe.x-=speed;
+				}else{
+					// 障碍物移出画布,重新绘制
+					// 水平坐标 及 高度
+					upPipe.x=400;
+					downPipe.x=400;
+					upPipe.height=Math.random()*100+100;
+					downPipe.y=upPipe.height+pipe_height;
+					downPipe.height=600-45-downPipe.y;
+					isGrade=true;
+
+				}
+				if(bird.x>upPipe.x+upPipe.width && isGrade){
+					grade++;
+					ctx.font='30px 黑体';
+					ctx.fillText(grade,200,200);
+					isGrade=false;
+				}
+				
+				
+			}
+			document.onclick=function(){
+				window.location.reload();
+			}
+
+			// 绘制图片的函数
+			function drawAll(){
+				ctx.clearRect(0,0,400,600);
+				bg.draw();
+				ground.draw();
+				upPipe.draw();
+				downPipe.draw();
+				bird.draw();
+				// 此时网页上什么都不会出现,因为多个image.onload()只会识别最后一个;或者是图片源没找到
+				// 解决办法:1.强制绘制(去掉onload)2.重新指定图片源
+				// 障碍物移动循环调用
+				circulation();
+			}
+			tid=setInterval(drawAll,80);
+
+			// 间歇绘制
+			// function circulation(){
+			// 	ctx.clearRect(0,0,400,600);
+			// 	bird.draw();
+			// }
+			// setInterval(function(){
+			// 	ctx.clearRect(0,0,400,600);
+			// 	bird.draw();
+			// },60);
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		}
+				
+	</script>
+</head>
+<body>
+	<canvas width="400" height="600" id="myCanvas"></canvas>
+
+</body>
+</html>
